@@ -13,6 +13,8 @@
     <link rel="stylesheet" href="{{ asset('plugins/fontawesome-free/css/all.min.css') }}">
     <!-- pace-progress -->
     <link rel="stylesheet" href="{{ asset('plugins/pace-progress/themes/black/pace-theme-minimal.css') }}">
+    {{-- css --}}
+    @stack('css')
     <!-- adminlte-->
     <link rel="stylesheet" href="{{ asset('dist/css/adminlte.min.css') }}">
 </head>
@@ -54,7 +56,7 @@
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1>Pace</h1>
+                            <h1>@yield('title')</h1>
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
@@ -100,8 +102,10 @@
     <script src="{{ asset('plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <!-- pace-progress -->
     <script src="{{ asset('plugins/pace-progress/pace.min.js') }}"></script>
+    {{-- card-widget --}}
     <!-- AdminLTE App -->
     <script src="{{ asset('dist/js/adminlte.min.js') }}"></script>
+    @stack('javascript')
 
 </body>
 

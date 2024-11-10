@@ -1,4 +1,4 @@
-<?php $__env->startSection('title', 'Pace'); ?>
+<?php $__env->startSection('title', 'Home'); ?>
 
 <?php $__env->startSection('breadcrumb'); ?>
     <li class="breadcrumb-item active">Pace</li>
@@ -6,7 +6,7 @@
 <?php $__env->startSection('content'); ?>
     <div class="card">
         <div class="card-header">
-            <h3 class="card-title">Title</h3>
+            <h3 class="card-title"><?php echo $__env->yieldContent('title'); ?></h3>
 
             <div class="card-tools">
                 <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">

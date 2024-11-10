@@ -13,6 +13,8 @@
     <link rel="stylesheet" href="<?php echo e(asset('plugins/fontawesome-free/css/all.min.css')); ?>">
     <!-- pace-progress -->
     <link rel="stylesheet" href="<?php echo e(asset('plugins/pace-progress/themes/black/pace-theme-minimal.css')); ?>">
+    
+    <?php echo $__env->yieldPushContent('css'); ?>
     <!-- adminlte-->
     <link rel="stylesheet" href="<?php echo e(asset('dist/css/adminlte.min.css')); ?>">
 </head>
@@ -54,7 +56,7 @@
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1>Pace</h1>
+                            <h1><?php echo $__env->yieldContent('title'); ?></h1>
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
@@ -100,8 +102,10 @@
     <script src="<?php echo e(asset('plugins/bootstrap/js/bootstrap.bundle.min.js')); ?>"></script>
     <!-- pace-progress -->
     <script src="<?php echo e(asset('plugins/pace-progress/pace.min.js')); ?>"></script>
+    
     <!-- AdminLTE App -->
     <script src="<?php echo e(asset('dist/js/adminlte.min.js')); ?>"></script>
+    <?php echo $__env->yieldPushContent('javascript'); ?>
 
 </body>
 

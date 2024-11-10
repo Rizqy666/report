@@ -2,6 +2,9 @@
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\WellController;
+use App\Http\Controllers\ReportController;
+use App\Http\Controllers\WellReadingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,3 +24,7 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::resource('wells', WellController::class)->only(['index', 'create', 'store', 'edit', 'update', 'destroy']);
+Route::resource('readings', WellReadingController::class)->only(['index', 'create', 'store', 'edit', 'update', 'destroy']);
+Route::resource('reports', ReportController::class)->only(['index', 'create', 'store', 'edit', 'update', 'destroy']);
+Route::post('/wells/{well}/readings', [WellReadingController::class, 'store'])->name('readings.store');
