@@ -40,31 +40,42 @@
                 </div>
                 <form action="<?php echo e(route('readings.store')); ?>" method="POST">
                     <?php echo csrf_field(); ?>
-                    <div class="form-group">
-                        <label for="well_id">Select Well</label>
-                        <select name="well_id" id="well_id" class="form-control" required>
-                            <option value="">Select Well</option>
-                            <?php $__currentLoopData = $wells; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $well): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                <option value="<?php echo e($well->id); ?>"><?php echo e($well->name); ?></option>
-                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                        </select>
+                    <div class="card-body">
+                        <div class="form-group row">
+                            <label for="well_id" class="col-sm-2 col-form-label">Select Well</label>
+                            <div class="col-sm-10">
+                                <select name="well_id" id="well_id" class="form-control" required>
+                                    <option value="">Select Well</option>
+                                    <?php $__currentLoopData = $wells; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $well): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                        <option value="<?php echo e($well->id); ?>"><?php echo e($well->name); ?></option>
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="description" class="col-sm-2 col-form-label">Description</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="description" name="description" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="unit" class="col-sm-2 col-form-label">Unit</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="unit" name="unit">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="tag" class="col-sm-2 col-form-label">Tag (Parameter)</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="tag" name="tag">
+                            </div>
+                        </div>
                     </div>
-
-                    <div class="form-group">
-                        <label for="tag">Tag (Parameter)</label>
-                        <input type="text" name="tag" id="tag" class="form-control" required>
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-info">Simpan</button>
                     </div>
-
-
-                    <div class="form-group">
-                        <label for="start_date">Start Date</label>
-                        <input type="date" name="start_date" id="start_date" class="form-control"
-                            value="<?php echo e(now()->format('Y-m-d')); ?>" required>
-                    </div>
-
-                    <button type="submit" class="btn btn-primary">Add Well Reading</button>
                 </form>
-
             </div>
         </div>
         <div class="col-6">
@@ -79,24 +90,29 @@
                             <thead>
                                 <tr>
                                     <th width="5%">No</th>
-                                    <th>Decription Wills</th>
+                                    <th>Decription Wells</th>
+                                    <th>Description</th>
+                                    <th>Unit</th>
                                     <th>Tag</th>
-                                    <th>Tanggal</th>
                                     <th width="5%">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php $__currentLoopData = $wellReadings; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $well): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <?php $__currentLoopData = $wellReadings; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $wellReading): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                     <tr>
                                         <td><?php echo e($index + 1); ?></td>
-                                        <td><?php echo e($well->well->name); ?></td>
-                                        <td><?php echo e($well->tag); ?></td>
-                                        <td><?php echo e($well->start_date); ?></td>
+                                        <td><?php echo e($wellReading->well->name); ?></td>
+                                        <td><?php echo e($wellReading->description); ?></td>
+                                        <td><?php echo e($wellReading->unit); ?></td>
+                                        <td><?php echo e($wellReading->tag); ?></td>
                                         <td>
                                             <div class="btn-group d-flex gap-2" role="group" aria-label="Action Buttons">
-                                                <a href="<?php echo e(route('readings.edit', $well->id)); ?>"
-                                                    class="btn btn-warning btn-sm" id="editBtn">Edit</a>
-                                                <form action="<?php echo e(route('readings.destroy', $well->id)); ?>" method="POST">
+                                                <a href="<?php echo e(route('readings.edit', $wellReading->id)); ?>"
+                                                    class="btn btn-warning btn-sm" id="editBtn">
+                                                    Edit
+                                                </a>
+                                                <form action="<?php echo e(route('readings.destroy', $wellReading->id)); ?>"
+                                                    method="POST">
                                                     <?php echo csrf_field(); ?>
                                                     <?php echo method_field('DELETE'); ?>
                                                     <button type="submit"
@@ -104,23 +120,22 @@
                                                 </form>
 
                                             </div>
-
-
                                         </td>
-
                                     </tr>
                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                             </tbody>
                             <tfoot>
                                 <tr>
                                     <th>No</th>
-                                    <th>Decription Wills</th>
+                                    <th>Description Wells</th>
+                                    <th>Description</th>
+                                    <th>Unit</th>
                                     <th>Tag</th>
-                                    <th>Tanggal</th>
                                     <th>Action</th>
                                 </tr>
                             </tfoot>
                         </table>
+
                     </div>
                 </div>
             </div>

@@ -12,9 +12,11 @@ return new class extends Migration {
     {
         Schema::create('reports', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('well_id')->constrained('wells');
             $table->foreignId('well_reading_id')->constrained('well_readings');
             $table->decimal('value', 8, 2);
+            $table->date('report_date');
             $table->timestamps();
         });
     }
