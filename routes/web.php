@@ -25,6 +25,10 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::resource('wells', WellController::class)->only(['index', 'create', 'store', 'edit', 'update', 'destroy']);
-Route::resource('readings', WellReadingController::class)->only(['index', 'create', 'store', 'edit', 'update', 'destroy']);
+Route::resource('readings', WellReadingController::class)
+    ->only(['index', 'create', 'store', 'edit', 'update', 'destroy'])
+    ->parameters([
+        'readings' => 'wellReading',
+    ]);
+
 Route::resource('reports', ReportController::class)->only(['index', 'create', 'store', 'edit', 'update', 'destroy']);
-Route::post('/wells/{well}/readings', [WellReadingController::class, 'store'])->name('readings.store');

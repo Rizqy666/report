@@ -13,8 +13,9 @@ return new class extends Migration {
         Schema::create('well_readings', function (Blueprint $table) {
             $table->id();
             $table->foreignId('well_id')->constrained('wells')->onDelete('cascade');
-            $table->string('tag');
-            $table->timestamp('start_date')->useCurrent();
+            $table->string('description');
+            $table->string('tag')->nullable();
+            $table->string('unit')->nullable;
             $table->timestamps();
         });
     }

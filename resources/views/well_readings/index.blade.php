@@ -41,31 +41,42 @@
                 </div>
                 <form action="{{ route('readings.store') }}" method="POST">
                     @csrf
-                    <div class="form-group">
-                        <label for="well_id">Select Well</label>
-                        <select name="well_id" id="well_id" class="form-control" required>
-                            <option value="">Select Well</option>
-                            @foreach ($wells as $well)
-                                <option value="{{ $well->id }}">{{ $well->name }}</option>
-                            @endforeach
-                        </select>
+                    <div class="card-body">
+                        <div class="form-group row">
+                            <label for="well_id" class="col-sm-2 col-form-label">Select Well</label>
+                            <div class="col-sm-10">
+                                <select name="well_id" id="well_id" class="form-control" required>
+                                    <option value="">Select Well</option>
+                                    @foreach ($wells as $well)
+                                        <option value="{{ $well->id }}">{{ $well->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="description" class="col-sm-2 col-form-label">Description</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="description" name="description" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="unit" class="col-sm-2 col-form-label">Unit</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="unit" name="unit">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="tag" class="col-sm-2 col-form-label">Tag (Parameter)</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="tag" name="tag">
+                            </div>
+                        </div>
                     </div>
-
-                    <div class="form-group">
-                        <label for="tag">Tag (Parameter)</label>
-                        <input type="text" name="tag" id="tag" class="form-control" required>
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-info">Simpan</button>
                     </div>
-
-
-                    <div class="form-group">
-                        <label for="start_date">Start Date</label>
-                        <input type="date" name="start_date" id="start_date" class="form-control"
-                            value="{{ now()->format('Y-m-d') }}" required>
-                    </div>
-
-                    <button type="submit" class="btn btn-primary">Add Well Reading</button>
                 </form>
-
             </div>
         </div>
         <div class="col-6">
@@ -80,24 +91,29 @@
                             <thead>
                                 <tr>
                                     <th width="5%">No</th>
-                                    <th>Decription Wills</th>
+                                    <th>Decription Wells</th>
+                                    <th>Description</th>
+                                    <th>Unit</th>
                                     <th>Tag</th>
-                                    <th>Tanggal</th>
                                     <th width="5%">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($wellReadings as $index => $well)
+                                @foreach ($wellReadings as $index => $wellReading)
                                     <tr>
                                         <td>{{ $index + 1 }}</td>
-                                        <td>{{ $well->well->name }}</td>
-                                        <td>{{ $well->tag }}</td>
-                                        <td>{{ $well->start_date }}</td>
+                                        <td>{{ $wellReading->well->name }}</td>
+                                        <td>{{ $wellReading->description }}</td>
+                                        <td>{{ $wellReading->unit }}</td>
+                                        <td>{{ $wellReading->tag }}</td>
                                         <td>
                                             <div class="btn-group d-flex gap-2" role="group" aria-label="Action Buttons">
-                                                <a href="{{ route('readings.edit', $well->id) }}"
-                                                    class="btn btn-warning btn-sm" id="editBtn">Edit</a>
-                                                <form action="{{ route('readings.destroy', $well->id) }}" method="POST">
+                                                <a href="{{ route('readings.edit', $wellReading->id) }}"
+                                                    class="btn btn-warning btn-sm" id="editBtn">
+                                                    Edit
+                                                </a>
+                                                <form action="{{ route('readings.destroy', $wellReading->id) }}"
+                                                    method="POST">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit"
@@ -105,23 +121,22 @@
                                                 </form>
 
                                             </div>
-
-
                                         </td>
-
                                     </tr>
                                 @endforeach
                             </tbody>
                             <tfoot>
                                 <tr>
                                     <th>No</th>
-                                    <th>Decription Wills</th>
+                                    <th>Description Wells</th>
+                                    <th>Description</th>
+                                    <th>Unit</th>
                                     <th>Tag</th>
-                                    <th>Tanggal</th>
                                     <th>Action</th>
                                 </tr>
                             </tfoot>
                         </table>
+
                     </div>
                 </div>
             </div>

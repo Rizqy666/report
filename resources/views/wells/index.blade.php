@@ -21,7 +21,15 @@
             });
         </script>
     @endif
-
+    @if (session('error'))
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: "{!! session('error') !!}"
+            });
+        </script>
+    @endif
 
 
     <div class="row">
@@ -43,7 +51,6 @@
                     </div>
                     <div class="card-footer">
                         <button type="submit" class="btn btn-info">Simpan</button>
-                        <button type="submit" class="btn btn-default float-right">Cancel</button>
                     </div>
                 </form>
             </div>
@@ -79,12 +86,8 @@
                                                     <button type="submit"
                                                         class="btn btn-danger btn-sm delete-btn">Delete</button>
                                                 </form>
-
                                             </div>
-
-
                                         </td>
-
                                     </tr>
                                 @endforeach
                             </tbody>

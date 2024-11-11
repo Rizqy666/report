@@ -17,33 +17,31 @@
         </div>
     @endif
 
-    <div class="row">
-        <div class="col-6">
-            <div class="card card-info">
-                <div class="card-header">
-                    <h3 class="card-title">Wells</h3>
-                </div>
-                <form class="form-horizontal" action="{{ route('wells.update', $well->id) }}" method="POST">
-                    @csrf
-                    @method('PUT')
-                    <div class="card-body">
-                        <div class="form-group row">
-                            <label for="name" class="col-sm-2 col-form-label">Wells</label>
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control" id="name" name="name"
-                                    placeholder="Tambahkan description" value="{{ old('name', $well->name) }}" required>
-                            </div>
+
+    <div class="container-fluid">
+        <div class="card card-info">
+            <div class="card-header">
+                <h3 class="card-title">Wells</h3>
+            </div>
+            <form class="form-horizontal" action="{{ route('wells.update', $well->id) }}" method="POST">
+                @csrf
+                @method('PUT')
+                <div class="card-body">
+                    <div class="form-group row">
+                        <label for="name" class="col-sm-2 col-form-label">Wells</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="name" name="name"
+                                placeholder="Tambahkan description" value="{{ old('name', $well->name) }}" required>
                         </div>
                     </div>
+                </div>
 
-                    <div class="card-footer">
-                        <button type="submit" class="btn btn-info">Simpan</button>
-                        <a href="{{ route('wells.index') }}" class="btn btn-default float-right">Cancel</a>
-                    </div>
-                </form>
-            </div>
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-info">Simpan</button>
+                    <a href="{{ route('wells.index') }}" class="btn btn-default float-right">Cancel</a>
+                </div>
+            </form>
         </div>
-
     </div>
 @endsection
 @push('javascript')
@@ -71,6 +69,5 @@
                 "responsive": true,
             });
         });
-
     </script>
 @endpush
