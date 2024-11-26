@@ -27,99 +27,101 @@
         </script>
     @endif
 
-    <div class="row">
-        <div class="col-6">
-            <div class="card card-info">
-                <div class="card-header">
-                    <h3 class="card-title">Report Input Form</h3>
-                </div>
-                <form action="{{ route('reports.store') }}" method="POST">
-                    @csrf
-                    <div class="card-body">
-                        <!-- Tampilkan Tanggal Hari Ini -->
-                        <div class="form-group">
-                            <h4 class="form-text">{{ \Carbon\Carbon::now()->format('d-m-Y') }}</h4>
-                            <input type="hidden" name="report_date" value="{{ \Carbon\Carbon::now()->toDateString() }}">
-                        </div>
 
-                        @foreach ($wells as $well)
-                            <div class="well-section mb-4">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <h4 class="mb-0">DESCRIPTION: {{ $well->name }}</h4>
-
-                                </div>
-
-                                @foreach ($well->readings as $reading)
-                                    <div class="form-group row">
-                                        <!-- Kolom untuk Description -->
-                                        <div class="col-md-3">
-                                            <span class="form-text">{{ $reading->description }}</span>
-                                        </div>
-                                        <!-- Kolom untuk Tag -->
-                                        <div class="col-md-2">
-                                            <label for="value_{{ $reading->id }}"
-                                                class="col-form-label">{{ $reading->tag }}</label>
-                                        </div>
-                                        <!-- Kolom untuk Unit -->
-                                        <div class="col-md-2">
-                                            <label for="value_{{ $reading->id }}" class="col-form-label">Satuan:
-                                                {{ $reading->unit }}</label>
-                                        </div>
-                                        <!-- Kolom untuk Input Value -->
-                                        <div class="col-md-5">
-                                            <input type="hidden"
-                                                name="data[{{ $well->id }}][{{ $reading->id }}][well_id]"
-                                                value="{{ $well->id }}">
-                                            <input type="hidden"
-                                                name="data[{{ $well->id }}][{{ $reading->id }}][well_reading_id]"
-                                                value="{{ $reading->id }}">
-                                            <input type="number"
-                                                name="data[{{ $well->id }}][{{ $reading->id }}][value]"
-                                                id="value_{{ $reading->id }}" class="form-control" required step="0.01"
-                                                placeholder="Enter value for {{ $reading->description }}">
-                                        </div>
-                                    </div>
-                                @endforeach
-                            </div>
-                        @endforeach
-                    </div>
-
-                    <div class="card-footer">
-                        <button type="submit" class="btn btn-info">Submit</button>
-                    </div>
-                </form>
-
-
-
+    <div class="container">
+        <div class="card card-info">
+            <div class="card-header">
+                <h3 class="card-title">Report Input Form</h3>
             </div>
-        </div>
-        <div class="col-6">
-            <div class="card">
-                <div class="card-header border-0">
-                    <div class="d-flex justify-content-between">
-                        <h3 class="card-title">DAILY PLANT PARAMETER TRENDING</h3>
-                    </div>
-                </div>
+            <form action="{{ route('reports.store') }}" method="POST">
+                @csrf
                 <div class="card-body">
-                    <div class="position-relative mb-4">
-                        <canvas id="visitors-chart" height="200"></canvas>
+                    <!-- Tampilkan Tanggal Hari Ini -->
+                    <div class="form-group mb-3">
+                        <h4>Tanggal: {{ \Carbon\Carbon::now()->format('d-m-Y') }}</h4>
+                        <input type="hidden" name="report_date" value="{{ \Carbon\Carbon::now()->toDateString() }}">
                     </div>
 
-                    <div class="d-flex flex-row justify-content-end">
-                        <span class="mr-2">
-                            <i class="fas fa-square text-primary"></i> This Month
-                        </span>
-                    </div>
+                    <!-- Tabel untuk Input -->
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th class="text-center" style="width: 8%;">Well Name</th>
+                                <th class="text-center" style="width: 22%;">Description</th>
+                                <th class="text-center" style="width: 15%;">Tag</th>
+                                <th class="text-center" style="width: 10%;">Unit</th>
+                                <th class="text-center" style="width: 15%;">Value</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            @if ($wells->isEmpty())
+                                <!-- Jika Tidak Ada Data Wells -->
+                                <tr>
+                                    <td colspan="5" class="text-center">Belum memiliki data</td>
+                                </tr>
+                            @else
+                                @foreach ($wells as $well)
+                                    <!-- Hitung jumlah baris untuk rowspan -->
+                                    @php
+                                        $rowCount = $well->readings->count();
+                                    @endphp
+
+                                    @if ($rowCount === 0)
+                                        <!-- Jika Well Tidak Memiliki Readings -->
+                                        <tr>
+                                            <td colspan="5" class="text-center">"{{ $well->name }}" belum memiliki data
+                                                readings</td>
+                                        </tr>
+                                    @else
+                                        @foreach ($well->readings as $index => $reading)
+                                            <tr>
+                                                <!-- Nama Well -->
+                                                @if ($index === 0)
+                                                    <td rowspan="{{ $rowCount }}">{{ $well->name }}</td>
+                                                @endif
+
+                                                <!-- Description -->
+                                                <td>{{ $reading->description ?? '-' }}</td>
+
+                                                <!-- Tag -->
+                                                <td>{{ $reading->tag ?? '-' }}</td>
+
+                                                <!-- Unit -->
+                                                <td>{{ $reading->unit ?? '-' }}</td>
+
+                                                <!-- Input Value -->
+                                                <td>
+                                                    <input type="hidden"
+                                                        name="data[{{ $well->id }}][{{ $reading->id }}][well_id]"
+                                                        value="{{ $well->id }}">
+                                                    <input type="hidden"
+                                                        name="data[{{ $well->id }}][{{ $reading->id }}][well_reading_id]"
+                                                        value="{{ $reading->id }}">
+                                                    <input type="number"
+                                                        name="data[{{ $well->id }}][{{ $reading->id }}][value]"
+                                                        id="value_{{ $reading->id }}" class="form-control" required
+                                                        step="0.01" placeholder="Value"
+                                                        style="width: 100%; padding-left: 8px;">
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    @endif
+                                @endforeach
+                            @endif
+                        </tbody>
+                    </table>
                 </div>
-            </div>
+
+
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-info">Submit</button>
+                </div>
+            </form>
         </div>
-
-
-
-
-
-
     </div>
+
+
 @endsection
 @push('javascript')
     <script src="{{ asset('plugins/chart.js/Chart.min.js') }}"></script>
