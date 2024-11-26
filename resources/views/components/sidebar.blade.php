@@ -1,4 +1,5 @@
 <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+    <li class="nav-header">DAILY PLANT PARAMETER</li>
     <li class="nav-item">
         <a href="{{ route('home') }}" class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}">
             <i class="nav-icon fas fa-tachometer-alt"></i>
@@ -13,7 +14,7 @@
             <i class="nav-icon fas fa-th"></i>
             <p>
                 Report
-                <span class="right badge badge-danger">New</span>
+                {{-- <span class="right badge badge-danger">New</span> --}}
             </p>
         </a>
     </li>
@@ -22,7 +23,7 @@
             <i class="nav-icon fas fa-th"></i>
             <p>
                 Description Wells
-                <span class="right badge badge-danger">New</span>
+                {{-- <span class="right badge badge-danger">New</span> --}}
             </p>
         </a>
     </li>
@@ -51,5 +52,5 @@
 
 
 
-    <li class="nav-header">EXAMPLES</li>
+    {{-- <li class="nav-header">DAILY PLANT PARAMETER</li> --}}
 </ul>

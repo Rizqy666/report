@@ -2,32 +2,100 @@
 @section('title', 'Home')
 
 @section('breadcrumb')
-    <li class="breadcrumb-item active">Pace</li>
+    {{-- <li class="breadcrumb-item active">Home</li> --}}
 @endsection
 @section('content')
-    <div class="card">
-        <div class="card-header">
-            <h3 class="card-title">@yield('title')</h3>
+    <div class="container">
+        <div class="card">
+            <div class="card-body">
+                <div class="card-header border-0">
+                    <div class="d-flex justify-content-between">
+                        <h3 class="card-title">DAILY PLANT PARAMETER TRENDING</h3>
+                        <div>
+                            <form method="GET" id="filterForm">
+                                <select class="form-control" id="filter-well" name="well_reading"
+                                    onchange="document.getElementById('filterForm').submit()">
+                                    <option value="">Semua Data</option>
+                                    @foreach ($wellReadings as $well)
+                                        @foreach ($well->wellReadings as $reading)
+                                            <option value="{{ $reading->id }}"
+                                                {{ $selectedWellReading == $reading->id ? 'selected' : '' }}>
+                                                {{ $well->name }} - {{ $reading->description }}
+                                            </option>
+                                        @endforeach
+                                    @endforeach
+                                </select>
+                            </form>
 
-            <div class="card-tools">
-                <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
-                    <i class="fas fa-minus"></i>
-                </button>
-                <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
-                    <i class="fas fa-times"></i>
-                </button>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="card-body">
+                    <div class="position-relative mb-4">
+                        <canvas id="visitors-chart" height="200"></canvas>
+                    </div>
+
+                    <div class="d-flex flex-row justify-content-end">
+                        <span class="mr-2">
+                            <i class="fas fa-square text-primary"></i> This Month
+                        </span>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="card-body">
-            You can Change Pace Styles, Checkout the <a href="https://adminlte.io/docs/3.1/" target="_blank"
-                rel="noopener noreferrer">AdminLTE Official Docs</a> in Online.
-            <br>
-            Start creating your amazing application!
-        </div>
-        <!-- /.card-body -->
-        <div class="card-footer">
-            Footer
-        </div>
-        <!-- /.card-footer-->
     </div>
+
+    <script>
+        document.getElementById('filter-input').addEventListener('input', function() {
+            const filterValue = this.value.toLowerCase();
+            document.querySelectorAll('.report-item').forEach(function(item) {
+                const text = item.textContent.toLowerCase();
+                item.style.display = text.includes(filterValue) ? '' : 'none';
+            });
+        });
+    </script>
 @endsection
+@push('javascript')
+    <script src="{{ asset('plugins/chart.js/Chart.min.js') }}"></script>
+    <script>
+        const ctx = document.getElementById('visitors-chart').getContext('2d');
+        const visitorsChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: @json($chartLabels),
+                datasets: [{
+                    label: 'Daily Report Value',
+                    data: @json($chartValues),
+                    borderColor: 'rgba(60,141,188,0.8)',
+                    backgroundColor: 'rgba(60,141,188,0.4)',
+                    fill: true,
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    x: {
+                        type: 'category',
+                        title: {
+                            display: true,
+                            text: 'Tanggal'
+                        },
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Total Nilai'
+                        },
+                        beginAtZero: true,
+                    }
+                }
+            }
+        });
+
+        function filterByWell(value) {
+            window.location.href = `{{ route('home') }}?well=${value}`
+        }
+    </script>
+@endpush

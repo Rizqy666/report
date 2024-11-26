@@ -20,4 +20,8 @@ class Well extends Model
     {
         return $this->hasMany(Report::class);
     }
+    public function wellReadings()
+    {
+        return $this->hasMany(WellReading::class);
+    }
 }

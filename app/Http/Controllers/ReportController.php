@@ -63,6 +63,38 @@ class ReportController extends Controller
      */
     public function store(Request $request)
     {
+        // produksi
+        // $data = $request->input('data');
+
+        // if (!auth()->check()) {
+        //     return redirect()->route('login')->with('error', 'Please log in to submit a report.');
+        // }
+
+        // $userId = auth()->user()->id;
+
+        // $lastReport = Report::where('user_id', $userId)->latest()->first();
+
+        // // Batasan waktu 2 jam untuk pengisian report
+        // if ($lastReport && $lastReport->created_at->diffInHours(now()) < 2) {
+        //     return back()->with('error', 'You can only submit a report every 2 hours.');
+        // }
+
+        // // Looping untuk menyimpan setiap laporan yang di-input
+        // foreach ($data as $wellId => $readings) {
+        //     foreach ($readings as $readingId => $values) {
+        //         Report::create([
+        //             'well_id' => $values['well_id'],
+        //             'well_reading_id' => $values['well_reading_id'],
+        //             'value' => $values['value'],
+        //             'report_date' => Carbon::now()->toDateString(), // Set tanggal laporan ke tanggal hari ini
+        //             'user_id' => $userId,
+        //         ]);
+        //     }
+        // }
+
+        // return redirect()->route('reports.index')->with('success', 'Report submitted successfully.');
+
+        // Deploy
         $data = $request->input('data');
 
         if (!auth()->check()) {
@@ -70,13 +102,6 @@ class ReportController extends Controller
         }
 
         $userId = auth()->user()->id;
-
-        $lastReport = Report::where('user_id', $userId)->latest()->first();
-
-        // Batasan waktu 2 jam untuk pengisian report
-        if ($lastReport && $lastReport->created_at->diffInHours(now()) < 2) {
-            return back()->with('error', 'You can only submit a report every 2 hours.');
-        }
 
         // Looping untuk menyimpan setiap laporan yang di-input
         foreach ($data as $wellId => $readings) {
