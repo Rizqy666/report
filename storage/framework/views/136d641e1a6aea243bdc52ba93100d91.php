@@ -37,8 +37,16 @@
                 <div class="card-body">
                     <!-- Tampilkan Tanggal Hari Ini -->
                     <div class="form-group mb-3">
-                        <h4>Tanggal: <?php echo e(\Carbon\Carbon::now()->format('d-m-Y')); ?></h4>
-                        <input type="hidden" name="report_date" value="<?php echo e(\Carbon\Carbon::now()->toDateString()); ?>">
+                        
+                        
+                        <div class="row">
+                            <div class="col-4">
+                                <label for="report_date" class="form-label">Tanggal Laporan</label>
+                                <input type="date" name="report_date" class="form-control" required>
+
+
+                            </div>
+                        </div>
                     </div>
 
                     <!-- Tabel untuk Input -->
@@ -102,6 +110,8 @@
                                                         id="value_<?php echo e($reading->id); ?>" class="form-control" required
                                                         step="0.01" placeholder="Value"
                                                         style="width: 100%; padding-left: 8px;">
+
+
                                                 </td>
                                             </tr>
                                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
@@ -123,17 +133,16 @@
 
 <?php $__env->stopSection(); ?>
 <?php $__env->startPush('javascript'); ?>
-    <script src="<?php echo e(asset('plugins/chart.js/Chart.min.js')); ?>"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         const ctx = document.getElementById('visitors-chart').getContext('2d');
         const visitorsChart = new Chart(ctx, {
             type: 'line',
             data: {
-                labels: <?php echo json_encode($chartLabels, 15, 512) ?>,
+                labels: <?php echo json_encode($chartLabels, 15, 512) ?>, // Pastikan ini sudah benar
                 datasets: [{
                     label: 'Daily Report Value',
-                    data: <?php echo json_encode($chartValues, 15, 512) ?>,
+                    data: <?php echo json_encode($chartValues, 15, 512) ?>, // Pastikan ini sudah benar
                     borderColor: 'rgba(60,141,188,0.8)',
                     backgroundColor: 'rgba(60,141,188,0.4)',
                     fill: true,

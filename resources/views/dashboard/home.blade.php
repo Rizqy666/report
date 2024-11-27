@@ -58,16 +58,16 @@
     </script>
 @endsection
 @push('javascript')
-    <script src="{{ asset('plugins/chart.js/Chart.min.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         const ctx = document.getElementById('visitors-chart').getContext('2d');
         const visitorsChart = new Chart(ctx, {
             type: 'line',
             data: {
-                labels: @json($chartLabels),
+                labels: @json($chartLabels), // Pastikan ini sudah benar
                 datasets: [{
                     label: 'Daily Report Value',
-                    data: @json($chartValues),
+                    data: @json($chartValues), // Pastikan ini sudah benar
                     borderColor: 'rgba(60,141,188,0.8)',
                     backgroundColor: 'rgba(60,141,188,0.4)',
                     fill: true,
@@ -93,6 +93,7 @@
                 }
             }
         });
+
 
         function filterByWell(value) {
             window.location.href = `{{ route('home') }}?well=${value}`
