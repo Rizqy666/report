@@ -14,7 +14,9 @@ class Report extends Model
     // Kolom yang bisa diisi massal
     protected $fillable = ['well_id', 'well_reading_id', 'value', 'user_id', 'report_date'];
 
-    protected $dates = ['report_date'];
+    protected $casts = [
+        'report_date' => 'date',
+    ];
     public function well()
     {
         return $this->belongsTo(Well::class);

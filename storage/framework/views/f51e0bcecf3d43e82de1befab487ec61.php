@@ -58,16 +58,16 @@
     </script>
 <?php $__env->stopSection(); ?>
 <?php $__env->startPush('javascript'); ?>
-    <script src="<?php echo e(asset('plugins/chart.js/Chart.min.js')); ?>"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         const ctx = document.getElementById('visitors-chart').getContext('2d');
         const visitorsChart = new Chart(ctx, {
             type: 'line',
             data: {
-                labels: <?php echo json_encode($chartLabels, 15, 512) ?>,
+                labels: <?php echo json_encode($chartLabels, 15, 512) ?>, // Pastikan ini sudah benar
                 datasets: [{
                     label: 'Daily Report Value',
-                    data: <?php echo json_encode($chartValues, 15, 512) ?>,
+                    data: <?php echo json_encode($chartValues, 15, 512) ?>, // Pastikan ini sudah benar
                     borderColor: 'rgba(60,141,188,0.8)',
                     backgroundColor: 'rgba(60,141,188,0.4)',
                     fill: true,
@@ -93,6 +93,7 @@
                 }
             }
         });
+
 
         function filterByWell(value) {
             window.location.href = `<?php echo e(route('home')); ?>?well=${value}`

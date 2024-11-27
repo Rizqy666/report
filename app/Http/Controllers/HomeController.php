@@ -34,16 +34,17 @@ class HomeController extends Controller
         $startOfMonth = Carbon::now()->startOfMonth();
         $endOfMonth = Carbon::now()->endOfMonth();
 
-        // Ambil laporan yang dibuat dalam bulan ini
-        $reportsForMonth = Report::whereBetween('created_at', [$startOfMonth, $endOfMonth])
-            ->orderBy('created_at', 'asc')
+        // Ambil laporan yang dibuat dalam bulan ini berdasarkan report_date
+        $reportsForMonth = Report::whereBetween('report_date', [$startOfMonth, $endOfMonth])
+            ->orderBy('report_date', 'asc')
             ->get();
 
         // Ambil semua well_readings terurut berdasarkan `description`
-        $wellReadings = Well::with(['wellReadings' => function ($query) {
-            $query->orderBy('description', 'asc');
-        }])->get();
-
+        $wellReadings = Well::with([
+            'wellReadings' => function ($query) {
+                $query->orderBy('description', 'asc');
+            },
+        ])->get();
 
         // Filter berdasarkan `well_reading`
         $selectedWellReading = $request->input('well_reading');
@@ -51,16 +52,16 @@ class HomeController extends Controller
             $reportsForMonth = $reportsForMonth->where('well_reading_id', $selectedWellReading);
         }
 
-        // Akumulasi nilai `value` per tanggal dalam bulan ini
+        // Akumulasi nilai `value` per tanggal dalam bulan ini berdasarkan report_date
         $dailyReports = [];
         foreach (CarbonPeriod::create($startOfMonth, $endOfMonth) as $date) {
             $formattedDate = $date->format('Y-m-d');
             $dailyReports[$formattedDate] = 0;
         }
 
-        // Isi data dengan nilai report per tanggal
+        // Isi data dengan nilai report per tanggal berdasarkan report_date
         foreach ($reportsForMonth as $report) {
-            $date = $report->created_at->format('Y-m-d');
+            $date = $report->report_date->format('Y-m-d'); // Gunakan report_date
             $dailyReports[$date] += $report->value;
         }
 
